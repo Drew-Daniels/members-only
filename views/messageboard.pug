@@ -1,0 +1,18 @@
+extends index 
+
+block content 
+  ul
+    each message in messages 
+      li.message
+        .message-metadata-container
+          .message-avatar-container 
+            //- Somehow get avatar image for the user that created the message
+            .message-avatar-image
+          .message-username-container 
+            //- Somehow get username for the message from the user id of the message
+            .message-username 
+        .message-content-container 
+          .message-title #{message.title}
+          .message-body #{message.body}
+        .message-timestamp-container 
+          .message-timestamp #{message.timestamp}

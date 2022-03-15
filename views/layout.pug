@@ -3,5 +3,14 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='shortcut icon', href='https://members-only-media.s3.amazonaws.com/images/icons/members-only-icon.svg')
   body
-    block content
+    .content-container
+      .content
+        header.header
+        block content
+      footer.footer
+        img(src='https://members-only-media.s3.amazonaws.com/images/icons/github-icon.png' class='github-icon')
+        .github-profile-container
+          span Created by
+          a(href='https://github.com/Drew-Daniels') Drew Daniels

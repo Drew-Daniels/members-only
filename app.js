@@ -5,9 +5,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 // DB
 const mongoose = require('mongoose');
 const dev_db_url = process.env.SECRET_KEY;

@@ -26,9 +26,8 @@ const users = []
 const messages = []
 const avatars = []
 
-function userCreate(username, password, first_name, last_name, is_member, is_admin, avatar_id, cb) {
+function userCreate(first_name, last_name, password, is_member, is_admin, avatar_id, cb) {
   userDetail = {
-    username,
     password,
     first_name,
     last_name,
