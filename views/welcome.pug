@@ -1,0 +1,15 @@
+extends layout 
+
+block content
+  .content
+    header.header
+      .header-main-container
+        img(src='https://members-only-media.s3.amazonaws.com/images/icons/github-icon.svg' class='github-icon header-main-image')
+        h1.header-main-text= title
+    main.main 
+      .welcome-intro-container
+        h2.welcome-intro= welcomeIntro
+      .welcome-enter-btn-container
+        button(href='#' class='btn-base btn-enter')
+          img(src='https://members-only-media.s3.amazonaws.com/images/icons/github-icon.svg' class='github-icon header-main-image')
+          span Enter

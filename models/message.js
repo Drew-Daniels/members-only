@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 const { DateTime } = require('luxon');
 
 const MessageSchema = new Schema({
-    timestamp: {type: Date, required: true, default: Date.now},
     title: {type: String, required: true},
     body: {type: String, required: true},
-    user_id: {type: Schema.Types.ObjectId, ref: 'User', required: true},
+    user: {type: Schema.Types.ObjectId, ref: 'User', required: true},
+    timestamp: {type: Date, required: true, default: Date.now},
 });
 
 function dateFormatter(date, method) {

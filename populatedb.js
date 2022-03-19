@@ -2,19 +2,23 @@
 
 console.log('This script populates some test users and messages to your database. Specified database as argument - e.g.: populatedb mongodb+srv://cooluser:coolpassword@cluster0.a9azn.mongodb.net/local_library?retryWrites=true');
 
-// Get arguments passed on command line
+// GET CMD-LINE ARGS
 const userArgs = process.argv.slice(2);
-/*
 if (!userArgs[0].startsWith('mongodb')) {
     console.log('ERROR: You need to specify a valid mongodb URL as the first argument');
-    return
 }
-*/
+
+// MODELS
 const async = require('async');
 const User = require('./models/user');
 const Message = require('./models/message');
 const Avatar = require('./models/avatar');
 
+// HELPER MODULES
+const { uniqueNamesGenerator, adjectives, colors, animals } = require('unique-names-generator');
+const passwordGenerator = require('generate-password');
+
+// MONGODB
 const mongoose = require('mongoose');
 const mongoDB = userArgs[0];
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
@@ -22,18 +26,40 @@ mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+const avatars = []
 const users = []
 const messages = []
-const avatars = []
 
-function userCreate(first_name, last_name, password, is_member, is_admin, avatar_id, cb) {
+// HELPER FUNCTIONS
+const getRandUsername = function() {
+    return uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals] });
+};
+
+const getStrongPassword = function() {
+    return passwordGenerator.generate({ length: 10, numbers: true , symbols: true });
+};
+
+// AVATAR FUNCTIONS
+function avatarCreate(fileName, cb) {
+  const avatar = new Avatar({ fileName: fileName });
+
+  avatar.save(function(err) {
+    if (err) {
+      cb(err, null)
+      return;
+    }
+    console.log('New Avatar: ' + avatar);
+    avatars.push(avatar);
+    cb(null, avatar);
+  });
+}
+
+// USER FUNCTIONS
+function userCreate(username, password, avatar, cb) {
   userDetail = {
+    username,
     password,
-    first_name,
-    last_name,
-    is_member,
-    is_admin,
-    avatar_id,
+    avatar,
   }
   
   const user = new User(userDetail);
@@ -46,9 +72,10 @@ function userCreate(first_name, last_name, password, is_member, is_admin, avatar
     console.log('New user: ' + user);
     users.push(user);
     cb(null, user)
-  }  );
+  });
 };
 
+// MESSAGE FUNCTIONS
 function messageCreate(title, body, user, cb) {
   const messageDetail = { 
     title: title,
@@ -65,70 +92,10 @@ function messageCreate(title, body, user, cb) {
     console.log('New Message: ' + message);
     messages.push(message);
     cb(null, message)
-  }  );
+  });
 };
 
-function avatarCreate(fileName) {
-  const avatarDetail = {
-    fileName: fileName,
-  };
-
-  const avatar = new Avatar(avatarDetail);
-  avatars.push(avatar);
-
-}
-
-function createUsers(cb) {
-    async.series([
-        function(callback) {
-          userCreate('Patrick', 'Rothfuss', '1973-06-06', false, callback);
-        },
-        function(callback) {
-          userCreate('Ben', 'Bova', '1932-11-8', false, callback);
-        },
-        function(callback) {
-          userCreate('Isaac', 'Asimov', '1920-01-02', '1992-04-06', callback);
-        },
-        function(callback) {
-          userCreate('Bob', 'Billings', false, false, callback);
-        },
-        function(callback) {
-          userCreate('Jim', 'Jones', '1971-12-16', false, callback);
-        },
-        ],
-        // optional callback
-        cb);
-}
-
-
-function createMessages(cb) {
-    async.parallel([
-        function(callback) {
-          messageCreate('The Name of the Wind (The Kingkiller Chronicle, #1)', 'I have stolen princesses back from sleeping barrow kings. I burned down the town of Trebon. I have spent the night with Felurian and left with both my sanity and my life. I was expelled from the University at a younger age than most people are allowed in. I tread paths by moonlight that others fear to speak of during day. I have talked to Gods, loved women, and written songs that make the minstrels weep.', '9781473211896', authors[0], [genres[0],], callback);
-        },
-        function(callback) {
-          messageCreate("The Wise Man's Fear (The Kingkiller Chronicle, #2)", 'Picking up the tale of Kvothe Kingkiller once again, we follow him into exile, into political intrigue, courtship, adventure, love and magic... and further along the path that has turned Kvothe, the mightiest magician of his age, a legend in his own time, into Kote, the unassuming pub landlord.', '9788401352836', authors[0], [genres[0],], callback);
-        },
-        function(callback) {
-          messageCreate("The Slow Regard of Silent Things (Kingkiller Chronicle)", 'Deep below the University, there is a dark place. Few people know of it: a broken web of ancient passageways and abandoned rooms. A young woman lives there, tucked among the sprawling tunnels of the Underthing, snug in the heart of this forgotten place.', '9780756411336', authors[0], [genres[0],], callback);
-        },
-        function(callback) {
-          messageCreate("Apes and Angels", "Humankind headed out to the stars not for conquest, nor exploration, nor even for curiosity. Humans went to the stars in a desperate crusade to save intelligent life wherever they found it. A wave of death is spreading through the Milky Way galaxy, an expanding sphere of lethal gamma ...", '9780765379528', authors[1], [genres[1],], callback);
-        },
-        function(callback) {
-          messageCreate("Death Wave","In Ben Bova's previous novel New Earth, Jordan Kell led the first human mission beyond the solar system. They discovered the ruins of an ancient alien civilization. But one alien AI survived, and it revealed to Jordan Kell that an explosion in the black hole at the heart of the Milky Way galaxy has created a wave of deadly radiation, expanding out from the core toward Earth. Unless the human race acts to save itself, all life on Earth will be wiped out...", '9780765379504', authors[1], [genres[1],], callback);
-        },
-        function(callback) {
-          messageCreate('Test Book 1', 'Summary of test book 1', 'ISBN111111', authors[4], [genres[0],genres[1]], callback);
-        },
-        function(callback) {
-          messageCreate('Test Book 2', 'Summary of test book 2', 'ISBN222222', authors[4], false, callback)
-        }
-        ],
-        // optional callback
-        cb);
-}
-
+// CREATE AVATARS
 function createAvatars(cb) {
   async.parallel([
     function(callback) {
@@ -196,6 +163,93 @@ function createAvatars(cb) {
     },
   ],
   cb)
+}
+
+// CREATE USERS
+function createUsers(cb) {
+    async.series([
+        function(callback) {
+          userCreate(getRandUsername(), getStrongPassword(), avatars[19], callback);
+        },
+        function(callback) {
+          userCreate(getRandUsername(), getStrongPassword(), avatars[17], callback);
+        },
+        function(callback) {
+          userCreate(getRandUsername(), getStrongPassword(), avatars[9], callback);
+        },
+        function(callback) {
+          userCreate(getRandUsername(), getStrongPassword(), avatars[1], callback);
+        },
+        function(callback) {
+          userCreate(getRandUsername(), getStrongPassword(), avatars[5], callback);
+        },
+        ],
+        // optional callback
+        cb);
+}
+
+// CREATE MESSAGES
+function createMessages(cb) {
+    async.parallel([
+        function(callback) {
+          messageCreate(
+            'Feeling northward one equal unpleasing fully middleton room he admire agreeable enquire.',
+            'Companions praise existence lady young saved looked cordial going wishes period son pulled. Cottage manner burst journey an fond them at months young arose heard general law suspicion may. Speaking ladies avoid head furniture horrible most walk considered myself carriage help. Maids home enjoyment arrival letter engaged. Sons square goodness ecstatic.',
+            users[0],
+            callback
+          );
+        },
+        function(callback) {
+          messageCreate(
+            'Oh smallness overcame those allowance theirs staying favour sudden dispatched. ',
+            'Wisdom want mean thought rapturous village barton first pleased devonshire elderly leaf. Three savings noisy window child thrown post absolute round remark husband design wishing men possession. Balls alteration sake agreed tolerably name drawings design assistance my continual child hour friend winding ability. Unpacked ever painful married future neglected rendered hoped advantage declared vulgar wicket depend missed perceive.',
+            users[1],
+            callback
+          );
+        },
+        function(callback) {
+          messageCreate(
+            'Full demesne marry oppose admitted enable other affection season perceive they whatever.',
+            'Looking suspicion change engaged chicken belonging fact message entrance sense. Mind away visit no avoid amongst tended agreeable produced devonshire total. Dispatched manner taken musical are compliment called wandered young cease hope. Hills only folly perceived smile remark miss lady drift do future attacks. ',
+            users[2],
+            callback
+          );
+        },
+        function(callback) {
+          messageCreate(
+            'Dependent country merit subject gravity precaution whether numerous extensive.',
+            'Limited period frankness hunted ecstatic garrets keeps object sir companions attempted husband immediate elsewhere inquietude noise. Married strongly lose questions towards furnished dull invited terminated tastes both dearest unpleasant. Expenses walk uneasy window are excellent form continuing looking curiosity. Village disposing room guest downs asked domestic ask collected drawn abroad maids.',
+            users[3],
+            callback
+          );
+        },
+        function(callback) {
+          messageCreate(
+            'Either arise principle attempted solicitude settled unaffected we estimable sportsmen promise.',
+            'Estate wandered had. Wholly more son sang have followed vulgar chicken frequently not remember arise adapted half. Appear and shall sent dependent thrown declared written considered nothing improve morning hunted departure. Husband feelings sight improve rest procured dull way village read decay offices attempted suffering.',
+            users[4],
+            callback
+          );
+        },
+        function(callback) {
+          messageCreate(
+            'Opinions discovered round linen deal.',
+            'Rapid bringing boy graceful trifling own. Above bore unpleasing avoid with tears beauty green bringing certainty roused ladyship manor. Tore way disposal. Afraid announcing desire sitting nothing advantages country exercise folly own it gone read suffer. ',
+            users[0],
+            callback
+          );
+        },
+        function(callback) {
+          messageCreate(
+            'Mistaken with sitting shall sing visit shade country his.',
+            'Roused unwilling folly finished going sake village grave moment lady astonished pursuit again chamber men. Projecting defer family. Musical dashwood replying settled come help again amongst ye anxious spring concern breakfast settle strangers. Moonlight vexed long cottage not consider when. ',
+            users[1],
+            callback
+          );
+        }
+        ],
+        // optional callback
+        cb);
 }
 
 

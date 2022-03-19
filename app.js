@@ -15,8 +15,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // ROUTERS
 const indexRouter = require('./routes/index');
-const messageboardRouter = require('./routes/messageboard');
-const usersRouter = require('./routes/users');
+const messagesRouter = require('./routes/messages');
 
 // Security
 // const compression = require('compression');
@@ -38,8 +37,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/messageboard', messageboardRouter);
+app.use('/messages', messagesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

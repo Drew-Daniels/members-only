@@ -1,0 +1,28 @@
+extends layout
+
+block content 
+  .content
+    header.header
+      .header-main-container
+        img(src='https://members-only-media.s3.amazonaws.com/images/icons/github-icon.svg' class='github-icon header-main-image')
+        h1.header-main-text Members Only
+      .header-options-container
+        button(class='btn-base btn-option btn-register')
+            span(class='btn-text') Register
+        button(class='btn-base btn-option btn-login')
+            span(class='btn-text') Log In 
+        button(class='btn-base btn-option btn-admin')
+            span(class='btn-text') Become an Admin
+    ul
+      each message in message_list 
+        li.message
+          .message-metadata-container
+            .message-avatar-container 
+              img.message-avatar-img
+            .message-username-container
+              h3.message-username #{message.user.username}
+          .message-content-container 
+            .message-title #{message.title}
+            .message-body #{message.body}
+          .message-timestamp-container 
+            .message-timestamp #{message.timestamp}
