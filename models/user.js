@@ -10,4 +10,10 @@ const UserSchema = new Schema({
     is_admin: { type: Boolean, required: true, default: false },
 });
 
+UserSchema
+.virtual('avatarImgURL')
+.get(function() {
+    return this.avatar.imageURL;
+});
+
 module.exports = mongoose.model('User', UserSchema);

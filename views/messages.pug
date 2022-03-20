@@ -13,16 +13,16 @@ block content
             span(class='btn-text') Log In 
         button(class='btn-base btn-option btn-admin')
             span(class='btn-text') Become an Admin
-    ul
+    ul.messages
       each message in message_list 
         li.message
           .message-metadata-container
             .message-avatar-container 
-              img.message-avatar-img
+              img.message-avatar-img(src=message.user.avatar.url)
             .message-username-container
               h3.message-username #{message.user.username}
           .message-content-container 
             .message-title #{message.title}
             .message-body #{message.body}
           .message-timestamp-container 
-            .message-timestamp #{message.timestamp}
+            .message-timestamp #{message.timestamp_pretty}

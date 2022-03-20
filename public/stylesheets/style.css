@@ -165,3 +165,37 @@ html, body, button {
 .techStackItem {
   margin-top: 1em;
 }
+.messages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.message {
+  width: 50vw;
+  margin-bottom: 1em;
+}
+.message-metadata-container {
+  display: flex;
+  background-color: red;
+  border-radius: 1em 1em 0 0;
+}
+.message-content-container {
+  background-color: green;
+}
+.message-title {
+  font-size: 1em;
+}
+.message-body {
+  font-size: .8em;
+}
+.message-timestamp-container {
+  background-color: blue;
+  border-radius: 0 0 1em 1em;
+}
+.message-username {
+  font-weight: 700;
+  font-size: 1.5em;
+}
+.message-avatar-img {
+  height: 2em;
+}

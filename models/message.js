@@ -10,10 +10,10 @@ const MessageSchema = new Schema({
 });
 
 function dateFormatter(date, method) {
-    if (method='html') {
+    if (method === 'html') {
        return date ? DateTime.fromJSDate(date).toFormat('yyyy-MM-dd'): '';
     } else {
-        return date ? DateTime.fromJSDate(date).toLocaleString(DateTime.DATE_MED): '';
+        return date ? DateTime.fromJSDate(date).toLocaleString(DateTime.DATETIME_MED): '';
     }
 }
 

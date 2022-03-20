@@ -40,8 +40,8 @@ const getStrongPassword = function() {
 };
 
 // AVATAR FUNCTIONS
-function avatarCreate(fileName, cb) {
-  const avatar = new Avatar({ fileName: fileName });
+function avatarCreate(url, cb) {
+  const avatar = new Avatar({ url });
 
   avatar.save(function(err) {
     if (err) {
@@ -99,67 +99,67 @@ function messageCreate(title, body, user, cb) {
 function createAvatars(cb) {
   async.parallel([
     function(callback) {
-      avatarCreate('avatar-1', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-1.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-2', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-2.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-3', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-3.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-4', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-4.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-5', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-5.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-6', callback);
+      avatarCreate('avatar-6.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-7', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-7.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-8', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-8.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-9', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-9.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-10', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-10.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-11', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-11.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-12', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-12.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-13', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-13.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-14', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-14.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-15', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-15.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-16', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-16.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-17', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-17.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-18', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-18.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-19', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-19.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-20', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-20.svg', callback);
     },
     function(callback) {
-      avatarCreate('avatar-21', callback);
+      avatarCreate(process.env.S3_BUCKET_AVATARS + 'avatar-21.svg', callback);
     },
   ],
   cb)
