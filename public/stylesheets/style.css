@@ -94,6 +94,7 @@ html, body, button {
 .github-profile-container {
   display: flex;
   justify-content: center;
+  margin-bottom: 1em;
 }
 
 .github-profile-container > * {
@@ -169,6 +170,7 @@ html, body, button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 1em;
 }
 .message {
   width: 50vw;
@@ -178,9 +180,15 @@ html, body, button {
   display: flex;
   background-color: red;
   border-radius: 1em 1em 0 0;
+  padding: 1em;
+}
+.message-avatar {
+  height: 2em;
+  margin-right: 1em;
 }
 .message-content-container {
   background-color: green;
+  padding: 1em;
 }
 .message-title {
   font-size: 1em;
@@ -191,11 +199,16 @@ html, body, button {
 .message-timestamp-container {
   background-color: blue;
   border-radius: 0 0 1em 1em;
+  padding: 1em;
+}
+.message-timestamp {
+  text-align: right;
+}
+.message-username-container {
+  display: flex;
+  align-items: center;
 }
 .message-username {
   font-weight: 700;
   font-size: 1.5em;
-}
-.message-avatar-img {
-  height: 2em;
 }
