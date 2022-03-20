@@ -1,0 +1,18 @@
+extends layout 
+
+block content
+  .content
+    header.header
+      .header-main-container
+        img(src='https://members-only-media.s3.amazonaws.com/images/icons/github-icon.svg' class='github-icon header-main-image')
+        h1.header-main-text Members Only
+    main.main 
+        form(class='form-base form-login')
+            .form-control
+                label Username
+                input(id='username' type='text')
+            .form-control
+                label Password
+                input(id='password' type='text')
+            button(type='submit')
+                span Log In
