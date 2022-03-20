@@ -2,12 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 // require controller modules
-const userController = require('../controllers/userController');
-const messageController = require('../controllers/messageController');
-const avatarController = require('../controllers/avatarController');
+const user_controller = require('../controllers/userController');
+const message_controller = require('../controllers/messageController');
 
-// Set the controllers for request type
-router.get('/', messageController.index);
-
+// MESSAGE ROUTES
+router.get('/', message_controller.index);
 
 module.exports = router;

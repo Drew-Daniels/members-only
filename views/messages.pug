@@ -7,11 +7,11 @@ block content
         img(src='https://members-only-media.s3.amazonaws.com/images/icons/github-icon.svg' class='github-icon header-main-image')
         h1.header-main-text Members Only
       .header-options-container
-        button(class='btn-base btn-option btn-register')
+        a(href='/users/register')
             span(class='btn-text') Register
-        button(class='btn-base btn-option btn-login')
+        a(href='/users/login')
             span(class='btn-text') Log In 
-        button(class='btn-base btn-option btn-admin')
+        a(href='/admins/register')
             span(class='btn-text') Become an Admin
     ul.messages
       each message in message_list 

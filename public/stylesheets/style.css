@@ -192,6 +192,8 @@ html, body, button {
 }
 .message-title {
   font-size: 1em;
+  font-weight: 600;
+  padding-bottom: .25em;
 }
 .message-body {
   font-size: .8em;
